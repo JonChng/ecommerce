@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+    <h1>Cart</h1>
+    <div id="cart-items">
+        <form method="post" action="{% url 'update_cart' %}">
+            {% csrf_token %}
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <h2>{{ item.item.name }}</h2>
+                    <p>Quantity: <input type="number" name="quantity_{{ item.id }}" value="{{ item.quantity }}" min="1"></p>
+                    <p>Price per item: ${{ item.unit_price }}</p>
+                    <p>Total Price: ${{ item.total_price }}</p>
+                </div>
+            {% endfor %}
+            <input type="submit" value="Update Cart">
+        </form>
+        <p><strong>Total Price:</strong> ${{ final_price }}</p>
+        <a href = "/checkout">Checkout</a>
+    </div>
+    <a href="/">Back to home</a>
+</body>
+</html>

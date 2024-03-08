@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item Catalog</title>
+</head>
+<body>
+    <h1>Item Catalog</h1>
+    <div class="container">
+        <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
+    </div>
+    <a href="{% url 'view_cart' %}" class="view-card-button">View Cart</a>
+    
+    <div id="item-list">
+        {% for item in items %}
+            <div class="item">
+                <h2>{{ item.name }}</h2>
+                <p>{{ item.description }}</p>
+                <p>Price: ${{ item.price }}</p>
+                <form method="post" action="{% url 'add_to_cart' item.id %}">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="1" min="1">
+                    <input type="submit" value="Add to Cart">
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+    
+    <!-- Pop-up element -->
+
+    <script>
+        function addToCart(event, itemName) {
+            event.preventDefault(); 
+            var popup = document.getElementById("myPopup");
+            var popupMessage = document.getElementById("popup-message");
+            popupMessage.textContent = "Item '" + itemName + "' successfully added to cart!";
+            popup.style.display = "block";
+            setTimeout(function() {
+                popup.style.display = "none";
+            }, 1500); 
+        }
+    </script>
+</body>
+</html>
